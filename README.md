@@ -15,7 +15,7 @@ See [TERMINOLOGY.md](TERMINOLOGY.md) for shared identifier, lifecycle, evidence,
 
 | Module | Scope |
 |---|---|
-| `protocol_contracts::` | COS-AP v1 message envelope, strict bounded JSON decoding, typed message kinds, and envelope validation. |
+| `protocol_contracts::` | Legacy agent-message v1 envelope, strict bounded JSON decoding, typed message kinds, and envelope validation. |
 | `agg_checkpoint_v2` | Constrained I-JSON parsing, duplicate-key rejection, JCS-compatible canonicalization, and domain/component digests. |
 | `evidence_resolution_v1` | Versioned source-resolution request/response, digest binding, bounded source size, and declared producer-lineage checks. |
 | `evidence_verification_v1` | Evidence-verification subject and receipt schema, identity inventory, exact snapshot binding, and freshness checks. |
@@ -29,7 +29,7 @@ See [TERMINOLOGY.md](TERMINOLOGY.md) for shared identifier, lifecycle, evidence,
 protocol-contracts = { git = "https://github.com/nplongx/protocol-contracts" }
 ```
 
-Decode a bounded COS-AP v1 envelope:
+Decode the legacy bounded agent-message v1 envelope:
 
 ```rust
 use protocol_contracts::{decode_envelope, MessageType};
@@ -71,15 +71,7 @@ Callers must obtain expected peer identities from an authenticated transport, ve
 
 ## Compatibility notes
 
-Some identifiers are deliberately retained because they are part of existing wire formats:
-
-- `cos-ap` identifies the COS-AP protocol and its v1 envelope.
-- `runalith.agg.external-checkpoint` remains the exact AGG checkpoint v2 digest protocol identifier.
-- COS-AP v1 currently requires workflow IDs prefixed with `job_`.
-- Evidence verification keeps its exact scope and signed-envelope kind constants.
-
-Renaming these values would change wire compatibility. They are protocol identifiers, not a runtime dependency on Runalith.
-
+The legacy agent-message v1 profile retains its original serialized protocol identifier (`cos-ap`), `job_id` field, message-kind strings, and `job_` grammar. These values are isolated to that versioned envelope. New workflow-domain identifiers do not inherit this grammar. Renaming a v1 wire value would invalidate existing messages and is not performed by this package.
 ## Development
 
 Requirements: Rust `1.85` or newer.

@@ -19,7 +19,7 @@ A successful validator result means only that the data conforms to the checked s
 
 | Module | Responsibility | Important exclusion |
 |---|---|---|
-| `lib.rs` | COS-AP v1 message types, bounded envelope decoder, field validation. | No socket, authentication, dispatch, or job store. |
+| `lib.rs` | Legacy agent-message v1 types, bounded envelope decoder, field validation. | No socket, authentication, dispatch, or job store. |
 | `agg_checkpoint_v2.rs` | Strict JSON parser, duplicate-key and numeric checks, canonicalization, domain digest. | A digest is not a signature or external checkpoint custody. |
 | `evidence_resolution_v1.rs` | Evidence source request/response, URI constraints, byte limits, digest and declared producer-lineage binding. | Does not fetch URIs, authenticate peers, or independently verify producer history. |
 | `evidence_verification_v1.rs` | Evidence subject/receipt schema, exact snapshot binding, freshness, stable IDs. | Does not verify Ed25519 signatures, trust roots, or nonce use. |
@@ -28,7 +28,7 @@ A successful validator result means only that the data conforms to the checked s
 
 ## Dependency boundary
 
-Runtime dependencies: `chrono`, `hex`, `serde`, `serde_json`, `sha2`, and `thiserror`. No internal Runalith crate, database, network, provider, or host-application dependency is required.
+Runtime dependencies: `chrono`, `hex`, `serde`, `serde_json`, `sha2`, and `thiserror`. No sibling package, database, network, provider, or host-application dependency is required.
 
 ## Security invariants
 

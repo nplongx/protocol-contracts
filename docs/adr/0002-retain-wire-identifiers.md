@@ -5,7 +5,7 @@
 
 ## Context
 
-The extraction includes multiple protocol families originally developed within one application. Several constants contain product-specific strings, and COS-AP v1 has established field and identifier constraints.
+The extraction includes multiple protocol families originally developed within one application. Several constants contain product-specific strings, and The legacy agent-message v1 envelope has established field and identifier constraints.
 
 ## Decision
 

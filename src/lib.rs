@@ -15,10 +15,16 @@ pub mod evidence_verification_v1;
 pub mod governance_v1;
 pub mod mcp_service_v1;
 
-/// COS-AP wire protocol identifier.
-pub const COS_AP_PROTOCOL: &str = "cos-ap";
-/// COS-AP wire protocol version.
-pub const COS_AP_VERSION: u32 = 1;
+/// Exact identifier retained by the legacy agent-message v1 envelope.
+pub const LEGACY_AGENT_MESSAGE_PROTOCOL_ID: &str = "cos-ap";
+/// Version retained by the legacy agent-message envelope.
+pub const LEGACY_AGENT_MESSAGE_PROTOCOL_VERSION: u32 = 1;
+/// Legacy constant name retained for source compatibility.
+#[deprecated(note = "use LEGACY_AGENT_MESSAGE_PROTOCOL_ID")]
+pub const COS_AP_PROTOCOL: &str = LEGACY_AGENT_MESSAGE_PROTOCOL_ID;
+/// Legacy constant name retained for source compatibility.
+#[deprecated(note = "use LEGACY_AGENT_MESSAGE_PROTOCOL_VERSION")]
+pub const COS_AP_VERSION: u32 = LEGACY_AGENT_MESSAGE_PROTOCOL_VERSION;
 /// Maximum number of execution batch items.
 pub const MAX_EXECUTION_BATCH_ITEMS: usize = 32;
 /// Maximum command length in Unicode scalar values.
@@ -28,7 +34,7 @@ pub const MAX_EXECUTION_TIMEOUT_MS: u64 = 600_000;
 /// Maximum encoded envelope size accepted by the Rust transport.
 pub const MAX_ENVELOPE_BYTES: usize = 1_048_576;
 
-/// Recognized COS-AP v1 message types.
+/// Message kinds retained by the legacy agent-message v1 envelope.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum MessageType {
     /// Workflow proposal created.
@@ -72,11 +78,11 @@ pub enum MessageType {
     ProviderStatus,
 }
 
-/// Strict COS-AP v1 envelope.
+/// Strict legacy agent-message v1 envelope.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Envelope {
-    /// Protocol identifier; must be `cos-ap`.
+    /// Legacy protocol identifier; must be `cos-ap`.
     pub protocol: String,
     /// Wire protocol version; must be `1`.
     pub version: u32,
@@ -84,7 +90,7 @@ pub struct Envelope {
     pub message_id: String,
     /// Recognized message type.
     pub message_type: MessageType,
-    /// Workflow ID; COS-AP v1 requires the `job_` prefix.
+    /// Legacy job identifier; v1 requires the historical `job_` prefix.
     pub job_id: String,
     /// Optional task identity.
     pub task_id: Option<String>,
@@ -105,10 +111,10 @@ pub struct Envelope {
 impl Envelope {
     /// Validate all cross-field and payload invariants.
     pub fn validate(&self) -> Result<(), ProtocolError> {
-        if self.protocol != COS_AP_PROTOCOL {
+        if self.protocol != LEGACY_AGENT_MESSAGE_PROTOCOL_ID {
             return Err(ProtocolError::InvalidField("protocol"));
         }
-        if self.version != COS_AP_VERSION {
+        if self.version != LEGACY_AGENT_MESSAGE_PROTOCOL_VERSION {
             return Err(ProtocolError::InvalidField("version"));
         }
         require_text(&self.message_id, "message_id")?;
@@ -154,13 +160,13 @@ pub fn decode_envelope(bytes: &[u8]) -> Result<Envelope, ProtocolError> {
 #[derive(Debug, Error)]
 pub enum ProtocolError {
     /// Encoded message is empty or exceeds the transport bound.
-    #[error("COS-AP envelope size outside valid bound: {0} bytes")]
+    #[error("legacy agent-message envelope size outside valid bound: {0} bytes")]
     EnvelopeSize(usize),
     /// JSON is malformed or contains an unknown field/type.
-    #[error("invalid COS-AP JSON: {0}")]
+    #[error("invalid legacy agent-message JSON: {0}")]
     Json(#[from] serde_json::Error),
     /// A field violates the protocol contract.
-    #[error("COS-AP field violates contract: {0}")]
+    #[error("legacy agent-message field violates contract: {0}")]
     InvalidField(&'static str),
 }
 
