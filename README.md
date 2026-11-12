@@ -7,6 +7,10 @@ Typed, versioned wire contracts and deterministic structural validators for serv
 
 > **Status:** `0.1.0`, initial standalone extraction. Included wire formats are versioned contracts, not a universal protocol standard. Compatibility and API may change before `1.0.0`.
 
+## Terminology
+
+See [TERMINOLOGY.md](TERMINOLOGY.md) for shared identifier, lifecycle, evidence, time-unit, and compatibility conventions.
+
 ## Included contracts
 
 | Module | Scope |
