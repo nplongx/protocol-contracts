@@ -1,8 +1,9 @@
 # Changelog
 
-## 0.1.1
+## 0.2.0
 
-- Add generic names for the legacy agent-message v1 protocol identifiers while retaining deprecated source-compatible aliases.
+- Remove product-branded constant aliases; expose only generic names for the legacy agent-message v1 protocol identifiers.
+- Preserve the exact serialized v1 protocol identifier and message representation.
 
 
 ## 0.1.0 — 2026-11-12

@@ -26,7 +26,7 @@ See [TERMINOLOGY.md](TERMINOLOGY.md) for shared identifier, lifecycle, evidence,
 
 ```toml
 [dependencies]
-protocol-contracts = { git = "https://github.com/nplongx/protocol-contracts", tag = "v0.1.1" }
+protocol-contracts = { git = "https://github.com/nplongx/protocol-contracts", tag = "v0.2.0" }
 ```
 
 Decode the legacy bounded agent-message v1 envelope:
