@@ -112,7 +112,11 @@ Do not use status, state, outcome, decision, and disposition as interchangeable 
 - Avoid naming public packages after source-tree directories, internal teams, deployment units, or runtime services.
 - The repository must be buildable from its own checkout. Dependencies copied under `vendor/` are internal source, not external repository dependencies.
 
-## 9. Package-specific scope\n\nThis package owns versioned serialized contracts and strict parsing/canonicalization. Historical protocol identifiers and field names remain exact only inside their versioned compatibility schemas; the package does not implement transport, authentication, or dispatch.\n\n## 10. Compatibility and change policy
+## 9. Package-specific scope
+
+This package owns versioned serialized contracts and strict parsing/canonicalization. Historical protocol identifiers and field names remain exact only inside their versioned compatibility schemas; the package does not implement transport, authentication, or dispatch.
+
+## 10. Compatibility and change policy
 
 Public wire fields, signed payloads, canonical JSON, database schemas, event discriminators, environment variables, and exported APIs are compatibility surfaces. Do not rename them in place merely for style.
 
